@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{arydshln}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{geometry}
+
+\geometry{left=2cm,right=2cm}
+
+\begin{document}
+
+\section*{Chapter 4}
+
+$$x(t)=\frac{1}{2\pi}\int_{-\infty}^{+\infty}X(j\omega)e^{j\omega t}d\omega$$
+$$X(j\omega)=\int_{-\infty}^{+\infty}x(t)e^{-j\omega t}dt$$
+$$x(t)=\sum_{k=-\infty}^{+\infty}a_ke^{jk\omega_0t}$$
+$$X(j\omega)=\sum_{k=-\infty}^{+\infty}2\pi a_k\delta(\omega-k\omega_0)$$
+
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ccc}
+\hline
+Property & Aperiodic Signal & Fourier transform \\
+\hline
+& $x(t)$ & $X(j\omega)$ \\
+& $y(t)$ & $Y(j\omega)$ \\
+& \\
+\hdashline
+Linearity & $ax(t)+by(t)$ & $aX(j\omega)+bY(j\omega)$ \\
+Time Shifting & $x(t-t_0$ & $e^{-j\omega t_0}X(j\omega)$ \\
+Frequency Shifting & $e^{-j\omega t_0}x(t)$ & $X(j(\omega-\omega_0))$ \\
+Conjugation & $x^*(t)$ & $X^*(-j\omega)$ \\
+Time Reversal & $x(-t)$ & $X(-j\omega)$ \\
+Time and Frequency Scaling & $x(at)$ & $\dfrac{1}{|a|}X(\dfrac{j\omega}{a})$ \\
+Convolution & $x(t)*y(t)$ & $X(j\omega)Y(j\omega$ \\
+Multiplication & $x(t)y(t)$ & $\dfrac{1}{2\pi}\int\limits_{-\infty}^{+\infty}X(j\omega)Y(j(\omega-\theta))d\theta$ \\
+Differentiation in Time & $\dfrac{d}{dt}x(t)$ & $j\omega X(j\omega)$ \\
+Integration & $\int\limits_{-\infty}^tx(t)dt$ & $\dfrac{1}{j\omega}X(j\omega)+\pi X(0)\delta(\omega)$ \\
+Differentiation in Frequency & $tx(t)$ & $j\dfrac{d}{d\omega}X(j\omega)$ \\
+& \\
+Conjugate Symmetry for Real Signals & $x(t)$ real & 
+$\left\lbrace\begin{aligned}
+&X(j\omega)=X^*(-j\omega) \\
+&\mathfrak{Re}\{X(j\omega)\}=\mathfrak{Re}\{X(-j\omega)\} \\
+&\mathfrak{Im}\{X(j\omega)\}=-\mathfrak{Im}\{X(-j\omega)\} \\
+&|X(j\omega)|=|X(-j\omega)| \\
+&\sphericalangle X(j\omega)=-\sphericalangle X(-j\omega) \\
+\end{aligned}\right.$\\
+& \\
+Symmetry for Real and Even Signals & $x(t)$ real and even & $X(j\omega)$ real and even \\
+Symmetry for Real and Odd Signals & $x(t)$ real and even & $X(j\omega)$ purely imaginary and odd \\
+& \\
+Even-Odd Decomposition for Real Signals & 
+$\begin{aligned}
+x_e(t)&=\mathfrak{Ev} & [x(t){\rm\ real}] \\
+x_o(t)&=\mathfrak{Od} & [x(t){\rm\ real}] \\
+\end{aligned}$ & 
+$\begin{aligned}
+&\mathfrak{Re}\{X(j\omega)\} \\
+&j\mathfrak{Im}\{X(j\omega)\} \\
+\end{aligned}$ \\
+& \\
+\hdashline
+& \\
+\multicolumn{3}{c}{Parseval's Relation for Aperiodic Signals} \\
+\multicolumn{3}{c}{$\int\limits_{-\infty}^{+\infty}|x(t)|^2dt=\dfrac{1}{2\pi}\int_{-\infty}^{+\infty}|X(j\omega)|^2d\omega$} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\end{document}
