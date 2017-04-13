@@ -1,0 +1,247 @@
+\documentclass{article}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{indentfirst}
+\geometry{left=3.0cm,right=3.0cm,top=3.0cm,bottom=4.0cm}
+\allowdisplaybreaks[4]
+\title{VE216 Lab1}
+\author{Liu Yihao 515370910207}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Objectives}
+\begin{itemize}
+	\item To become familiar with the laboratory equipment: power supply, signal generator, digital oscilloscope,
+computer data acquisition system (Scope Connect).
+	\item To review basic concepts of linear time-invariant systems.
+	\item To illustrate several possible ways to determine the impulse response of a physical system from measured
+data.
+	\item To use linearity, time-invariance and impulse response to compute the output of an LTI system when
+the input is a step, a pulse, or a more complicated signal. You will compare these calculations with
+actual measurements.
+	\item To measure the frequency response of an LTI system and compare against theory.
+\end{itemize}
+
+\section{Theoretical background}
+An RC circuit is used so that the computations are easy and physically meaningful. The same procedures
+can be applied to much more complicated systems.
+
+\subsection{RC circuit}
+The RC circuit shown below is an example of a simple LTI system. Of course, there are many other LTI
+systems that do not involve circuits at all.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\linewidth]{fig-1.png}
+	\caption{RC circuit}
+	\label{fig-setup}
+\end{figure}
+
+We will take the system input to be the voltage $V_{in}(t)$, while the system output is the voltage, $V_{out}(t)$,
+dropped across the capacitor. Notice that these voltages, in general, will be functions of time, $t$.
+
+\subsection{When is a linear circuit a linear system?}
+
+Using Kirchoffs current and voltage laws, one can easily derive a differential equation model of the RC-circuit
+in Figure \ref{fig-setup}, namely
+
+\begin{equation}
+	RC\frac{dV_{out}(t)}{dt}+V_{out}(t)=V_{in}(t)
+\end{equation}
+
+Appealing to basic knowledge of ODEs from a sophomore level math course, the total solution is seen to be
+
+\begin{equation}
+	V_{out}(t)=V_0e^{-t/RC}+\int_0^t\frac{1}{RC}e^{-(t-\tau)/RC}V_{in}(\tau)d\tau,\quad t\geqslant0
+\end{equation}
+
+where the initial condition at time zero is $V_{out}(0)=V_0$. It is very easy to verify that $V_{out}(t)$ is a linear
+function $V_{in}(t)$ if, and only if, $V_{out}(0)=V_0=0$, that is, the initial voltage on the capacitor has to be zero.
+This point is emphasized because you will have to assure this in the laboratory by either waiting for the
+charge to decay on the capacitor or by shorting the capacitor with a wire.\\
+
+\textbf{Reassuring remark:} We will learn how to deal comfortably with nonzero initial conditions when we
+study the Laplace transform. For the time being, it is important to realize that we are assuming zero initial
+conditions when our models arise from a differential equation.
+
+\subsection{Impulse Response}
+
+The impulse response, $h(t)$, of an LTI system is, by definition, the output response when the input of the
+system is a delta function, $\delta(t)$. Of course, the delta function is a mathematical idealization. In practice,
+$h(t)$ can be well approximated by the response of the system when the input is a pulse of very short duration (compared with the response time of the system) and unit area, such as $p_\delta(t)=\dfrac{1}{\delta}(u(t)-u(t-\delta))$ for $\delta>0$ sufficiently small.
+
+Note that in order to keep the area of the pulse equal to unity, the amplitude has to increase as the pulse
+duration gets shorter. Often, this is a problem in a practical system as a large voltage pulse may fry an
+amplifier, for example. One way to get around this is to use linearity and realize that if the input is scaled
+by ``$b$'', then the output will be scaled by ``$b$'' as well. Consequently, if the measured response is divided by
+``$b$'', an approximation of the impulse response is obtained.
+
+\subsection{Step Response}
+For any LTI system the output can be expressed as
+
+\begin{equation}
+	y(t)=x(t)*h(t)=\int_{-\infty}^{+\infty}x(\tau)h(t-\tau)d\tau=\int_{-\infty}^{+\infty}x(t-\tau)h(\tau)d\tau
+\end{equation}
+
+where $x(t)$ denotes the input and ∗ denotes the convolution operation. The output resulting when the input
+is a unit step function, $x(t) = u(t)$, is called the unit step response. Simple manipulation leads to
+
+\begin{equation}
+	y_{step}(t)=u(t)*h(t)=\int_{-\infty}^{+\infty}h(\tau)u(t-\tau)d\tau=\int_{-\infty}^th(t-\tau)u(\tau)d\tau+\int_t^{+\infty}h(t-\tau)u(\tau)d\tau
+\end{equation}
+
+which, because the unit step function is equal to $1$ for $t − τ > 0$ and equal to $0$ for $t − τ < 0$ step response
+simplifies to
+
+\begin{equation}
+	y_{step}(t)=\int_{-\infty}^th(\tau)d\tau
+\end{equation}
+
+By taking the derivative of $y_{step}(t)$ with respect to $t$, we obtain, by the fundamental theorem of calculus,
+
+\begin{equation}
+	\frac{dy_{step}(t)}{dt}=\frac{d}{dt}\int_{-\infty}^th(\tau)d\tau=h(t)
+\end{equation}
+
+Thus the impulse response can be computed from the unit step response by calculating the derivative of the
+step response with respect to time. This is a useful observation because it is sometimes easier to apply a
+step input to a physical system than it is to apply (an approximation of) an impulse.
+
+We now have two ways of determining the impulse response from data. A third way will be hinted at a
+little later.
+
+\section{Experiment procedures}
+\subsection*{Setup}
+\begin{itemize}
+	\item Function generator: Utility $\rightarrow$ Output Setup $\rightarrow$ Load $\rightarrow$ High Z
+	\item Oscillator: Trigger Menu 
+	$\rightarrow\left\{
+	\begin{aligned}
+		&\rm 1.Trigger\ Mode \rightarrow Basic \\
+		&\rm 2.Edge\ Trigger\ (Rising\ Edge) \\
+		&\rm 3.Trigger\ Settings \rightarrow DC\ Coupling
+	\end{aligned}
+	\right.$
+	\item RC circuit: $R = 1 K\Omega$, and $C = 1 \mu F$
+\end{itemize}
+
+\subsection{Step Response}
+\begin{itemize}
+	\item Function generator:\\
+	Square wave \qquad Vpp: 1V \qquad frequency: 100Hz
+	\item Oscillator:\\
+	CH1: 200mV/div \qquad CH2: 200mV/div \qquad Time: 2ms
+	\item Bonus: Compare your results with the ideal case
+\end{itemize}
+
+\subsection{Pulse Response}
+\begin{itemize}
+	\item Function generator: Pulse frequency: 100Hz
+	\begin{enumerate}
+		\item Width: 1ms \qquad A: 100mV
+		\item Width: 0.5ms \qquad A: 200mV
+	\end{enumerate}
+\end{itemize}
+
+\subsection{Ramp Response}
+\begin{itemize}
+	\item Function generator:\\
+	Ramp \qquad Vpp: 100mV \qquad frequency: 100Hz
+\end{itemize}
+
+\subsection{Sine Response}
+\begin{itemize}
+	\item Function generator: 10 Vpp
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Frequency (Hz) & Vout / Vin & Time Shift & Phase Shift \\
+			\hline
+			50 &&&\\
+			\hline
+			500 &&&\\
+			\hline
+			5k &&&\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\item Bonus: Compare your results with ideal case
+\end{itemize}
+
+\section{Experimental results}
+
+\subsection{Step Response}
+The figure was shown in Figure \ref{fig-1}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\linewidth]{1.bmp}
+	\caption{Step Response}
+	\label{fig-1}
+\end{figure}
+
+\subsection{Pulse Response}
+The figure was shown in Figure \ref{fig-2}.
+
+\begin{figure}[htbp]
+	\centering
+	\subfigure[Width: 1ms, A: 100mV]{
+		\includegraphics[width=0.45\linewidth]{2.1.bmp}
+		\label{fig-2-1}
+	}
+	\subfigure[Width: 0.5ms, A: 200mV]{
+		\includegraphics[width=0.45\linewidth]{2.2.bmp}
+		\label{fig-2-2}
+	}
+	\caption{Pulse Response}
+	\label{fig-2}
+\end{figure}
+
+\subsection{Sine Response}
+The figure was shown in Table \ref{tab-3}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Frequency (Hz) & Vout / Vin & Time Shift & Phase Shift \\
+		\hline
+		50 &&&\\
+		\hline
+		500 &&&\\
+		\hline
+		5k &&&\\
+		\hline
+	\end{tabular}
+	\caption{Sine Response}
+	\label{tab-3}
+\end{table}
+
+\section{Error analysis and discussion}
+\subsection{Step Response}
+In ideal situation, we know
+$$V_{in}(t)=u(t)$$
+$$V_{out}(t)=y_{step}(t)=(1-e^{-t/RC})u(t)$$
+
+Then we can substitute $R=1k\Omega$, $C=1\mu F$ into $y_{step}(t)$ and plot the ideal graph when $t\in[0,0.005)$ in MATLAB, as Figure \ref{fig-1-ideal}.
+
+We can find that in Figure \ref{fig-1} (experimental), $V_{in}(t)$ was not a straight line, it is probably because of the inner resistance of the experiment instruments.
+
+\subsection{Pulse Response}
+In the experiment, we can only simulate a $\delta$ function since instantaneous time period doesn't exist in real world. However, the smaller time period (width) we get, the more accurate the experiment is. We know the equation of the pulse response is
+
+$$h(t)=\frac{dy_{step}(t)}{dt}=\frac{1}{RC}e^{-t/RC}u(t)$$
+
+\subsection{Sine Response}
+
+\section{Conclusion}
+
+
+\end{document}
